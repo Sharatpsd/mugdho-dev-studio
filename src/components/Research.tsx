@@ -15,7 +15,7 @@ export const Research = () => {
   ];
 
   return (
-    <section id="research" className="section-padding bg-muted/30">
+    <section id="research" className="section-padding bg-secondary/30">
       <div className="section-container" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
