@@ -1,19 +1,24 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { Github, ExternalLink, Star } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { Github, ExternalLink, Star, X } from 'lucide-react';
+
+import projectBite from '@/assets/project-bite.png';
+import projectDairy from '@/assets/project-dairy.png';
+import projectCareer from '@/assets/project-career.png';
 
 const projects = [
   {
     title: 'Bite — Food Delivery Platform',
     featured: true,
-    description: 'A full-stack food delivery application with role-based access, real-time order management, and a responsive React frontend.',
+    description: 'A full-stack food delivery platform supporting customers and restaurant partners through a scalable REST-based architecture.',
+    image: projectBite,
     tech: ['Django REST Framework', 'React', 'PostgreSQL', 'JWT', 'Tailwind CSS'],
     highlights: [
-      'JWT-based authentication and role-based access control',
-      'Cart, checkout, menu, and order management systems',
-      'Scalable REST API architecture',
-      'Responsive React frontend with modern UX',
+      'JWT-based authentication & role-based access',
+      'Cart, checkout, menu & order management',
+      'Scalable Django REST API',
+      'Responsive React frontend',
     ],
     github: 'https://github.com/Sharatpsd/Food-Delivery-App-',
     live: 'https://food-delivery-frontend-mktt.onrender.com',
@@ -21,27 +26,28 @@ const projects = [
   {
     title: 'Daily Dairy Shop — E-Commerce Platform',
     featured: false,
-    description: 'A complete e-commerce solution with custom admin dashboard, inventory management, and Cloudinary-optimized image storage.',
+    description: 'A production-ready Django e-commerce platform for online dairy product sales with a custom admin dashboard.',
+    image: projectDairy,
     tech: ['Django', 'PostgreSQL', 'Bootstrap', 'Cloudinary'],
     highlights: [
-      'Custom admin dashboard (not default Django admin)',
-      'Inventory, order, and customer management',
-      'Session-based cart and authentication',
-      'Cloudinary image storage and optimization',
+      'Custom admin dashboard (inventory & orders)',
+      'Session-based cart & authentication',
+      'Cloudinary image storage',
+      'Clean customer UI',
     ],
     github: 'https://github.com/Sharatpsd/DailyDairyShop',
     live: 'https://dailydairyshop-3.onrender.com',
   },
   {
-    title: 'Smart Career Prediction — ML Application',
+    title: 'Smart Career Prediction — ML Web App',
     featured: false,
-    description: 'An AI-powered career recommendation system using machine learning models integrated into a Django web application.',
-    tech: ['Python', 'Django', 'Scikit-learn', 'Machine Learning'],
+    description: 'An AI-based career recommendation system using supervised machine learning models.',
+    image: projectCareer,
+    tech: ['Python', 'Django', 'Scikit-learn'],
     highlights: [
-      'AI-based career recommendation system',
-      'Multiple ML model evaluation and comparison',
-      'Random Forest model selected and integrated',
-      'Clean Django web interface',
+      'Multiple ML models evaluated',
+      'Random Forest selected for best performance',
+      'Integrated ML predictions into Django',
     ],
     github: 'https://github.com/Sharatpsd/smart-career-prediction-using-ml',
     live: null,
@@ -51,6 +57,7 @@ const projects = [
 export const Projects = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
   return (
     <section id="projects" className="section-padding">
@@ -68,37 +75,64 @@ export const Projects = () => {
           </p>
         </motion.div>
 
-        <div className="space-y-8">
+        <div className="grid gap-8 lg:gap-10">
           {projects.map((project, index) => (
-            <motion.div
+            <motion.article
               key={project.title}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              className={`card-elevated p-8 ${project.featured ? 'border-primary/20' : ''}`}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              className="project-card group"
             >
-              <div className="flex flex-col lg:flex-row lg:items-start gap-6">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-3">
-                    {project.featured && (
-                      <span className="flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full bg-gradient-to-r from-primary/10 to-accent/10 text-primary">
+              <div className="grid lg:grid-cols-2 gap-0">
+                {/* Project Image */}
+                <div 
+                  className="relative h-64 lg:h-auto lg:min-h-[320px] overflow-hidden cursor-pointer"
+                  onClick={() => setLightboxImage(project.image)}
+                >
+                  <img
+                    src={project.image}
+                    alt={`${project.title} screenshot`}
+                    className="project-image"
+                  />
+                  <div className="project-overlay lg:hidden" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-card hidden lg:block" />
+                  
+                  {/* Hover overlay with zoom hint */}
+                  <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="px-4 py-2 bg-background/90 rounded-lg text-sm font-medium backdrop-blur-sm">
+                      Click to expand
+                    </span>
+                  </div>
+
+                  {project.featured && (
+                    <div className="absolute top-4 left-4">
+                      <span className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-lg">
                         <Star size={12} fill="currentColor" />
                         Featured
                       </span>
-                    )}
-                  </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Project Content */}
+                <div className="p-6 lg:p-8 flex flex-col justify-center">
+                  <h3 className="heading-md mb-3 group-hover:text-primary transition-colors">
+                    {project.title}
+                  </h3>
                   
-                  <h3 className="heading-md mb-3">{project.title}</h3>
-                  <p className="body-md mb-4">{project.description}</p>
+                  <p className="body-md mb-5">{project.description}</p>
                   
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  {/* Tech Stack */}
+                  <div className="flex flex-wrap gap-2 mb-5">
                     {project.tech.map((tech) => (
-                      <span key={tech} className="skill-tag text-xs">
+                      <span key={tech} className="tech-badge">
                         {tech}
                       </span>
                     ))}
                   </div>
 
+                  {/* Highlights */}
                   <ul className="space-y-2 mb-6">
                     {project.highlights.map((highlight, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
@@ -108,12 +142,13 @@ export const Projects = () => {
                     ))}
                   </ul>
 
-                  <div className="flex items-center gap-4">
+                  {/* Action Buttons */}
+                  <div className="flex items-center gap-4 mt-auto">
                     <a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-secondary text-sm py-2 px-4"
+                      className="btn-secondary text-sm py-2.5 px-5"
                     >
                       <Github size={16} />
                       View Code
@@ -123,7 +158,7 @@ export const Projects = () => {
                         href={project.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-primary text-sm py-2 px-4"
+                        className="btn-primary text-sm py-2.5 px-5"
                       >
                         <ExternalLink size={16} />
                         Live Demo
@@ -132,10 +167,41 @@ export const Projects = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      {lightboxImage && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/95 backdrop-blur-sm"
+          onClick={() => setLightboxImage(null)}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            className="relative max-w-5xl w-full"
+          >
+            <button
+              onClick={() => setLightboxImage(null)}
+              className="absolute -top-12 right-0 p-2 rounded-full bg-card border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+              aria-label="Close lightbox"
+            >
+              <X size={24} />
+            </button>
+            <img
+              src={lightboxImage}
+              alt="Project screenshot enlarged"
+              className="w-full rounded-xl border border-border shadow-2xl"
+            />
+          </motion.div>
+        </motion.div>
+      )}
     </section>
   );
 };

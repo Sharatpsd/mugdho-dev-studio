@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Mail, Phone, Github, Linkedin, Globe, ArrowUpRight } from 'lucide-react';
+import { Mail, Phone, Github, Linkedin, ArrowUpRight } from 'lucide-react';
 
 const contactLinks = [
   {
@@ -27,12 +27,6 @@ const contactLinks = [
     label: 'LinkedIn',
     value: 'linkedin.com/in/sharat-acharjee',
     href: 'https://www.linkedin.com/in/sharat-acharjee-49276830b/',
-  },
-  {
-    icon: Globe,
-    label: 'Portfolio',
-    value: 'mugdho-portfolio.netlify.app',
-    href: 'https://mugdho-portfolio.netlify.app/',
   },
 ];
 
