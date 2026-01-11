@@ -1,92 +1,143 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Download, MapPin } from 'lucide-react';
+import { ArrowRight, Download, MapPin, Code2 } from 'lucide-react';
 import profileImage from '@/assets/profile-image.png';
+
+// Typewriter effect component
+const TypewriterText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
+  const container = {
+    hidden: { opacity: 0 },
+    visible: (i = 1) => ({
+      opacity: 1,
+      transition: { staggerChildren: 0.07, delayChildren: delay * i },
+    }),
+  };
+
+  const child = {
+    hidden: { opacity: 0, y: 25 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  return (
+    <motion.span
+      variants={container}
+      initial="hidden"
+      animate="visible"
+      className="inline-block"
+    >
+      {text.split('').map((char, index) => (
+        <motion.span key={index} variants={child} className="inline-block">
+          {char}
+        </motion.span>
+      ))}
+    </motion.span>
+  );
+};
 
 export const Hero = () => {
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Subtle gradient background */}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background glows */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-glow-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-glow-pulse" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl animate-pulse-slow" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '2s' }} />
       </div>
 
-      <div className="section-container pt-32 pb-20">
+      <div className="container mx-auto px-6 pt-24 pb-20 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           {/* Profile Image */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
+            initial={{ opacity: 0, x: -40, scale: 0.92 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
             className="relative group"
           >
-            <div className="profile-ring w-48 h-48 md:w-64 md:h-64 lg:w-72 lg:h-72 group-hover:shadow-xl transition-shadow duration-300" style={{ boxShadow: 'var(--shadow-lg)' }}>
+            <div className="w-64 h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full overflow-hidden border-4 border-cyan-500/30 shadow-2xl group-hover:border-cyan-400/60 transition-all duration-500">
               <img
                 src={profileImage}
                 alt="Sharat Acharja Mugdho"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
             </div>
-            {/* Subtle glow on hover */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 blur-2xl opacity-0 group-hover:opacity-50 transition-opacity duration-500 -z-10" />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-600/20 blur-2xl opacity-0 group-hover:opacity-70 transition-opacity duration-700" />
           </motion.div>
 
-          {/* Content */}
-          <div className="flex-1 text-center lg:text-left">
+          {/* Right side content */}
+          <div className="flex-1 text-center lg:text-left space-y-6">
+            {/* Location */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="flex items-center justify-center lg:justify-start gap-2 text-muted-foreground mb-4"
+              transition={{ delay: 0.2 }}
+              className="flex items-center justify-center lg:justify-start gap-2 text-cyan-300/80 text-sm font-medium"
             >
               <MapPin size={16} />
-              <span className="text-sm font-medium">Dhaka, Bangladesh</span>
+              <span>Dhaka, Bangladesh</span>
             </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="heading-xl mb-6"
-            >
-              <span className="gradient-text">Backend-Focused</span>
+            {/* Name */}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+              <TypewriterText text="Sharat Acharja" />
               <br />
-              Full-Stack Developer
-            </motion.h1>
+              <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent">
+                Mugdho
+              </span>
+            </h1>
 
-            <motion.p
+            {/* Main Title - Full Stack Developer */}
+            <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="body-lg max-w-2xl mx-auto lg:mx-0 mb-4"
+              transition={{ delay: 0.6 }}
+              className="text-3xl md:text-4xl font-semibold text-white flex items-center justify-center lg:justify-start gap-3 flex-wrap"
             >
-              I build scalable Django backends, secure REST APIs, and production-ready web applications—integrating modern React frontends and applied machine learning.
-            </motion.p>
+              <Code2 size={36} className="text-cyan-400" />
+              Full Stack Developer
+            </motion.h2>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="text-lg font-medium text-foreground mb-8"
-            >
-              Turning complex requirements into reliable, real-world systems.
-            </motion.p>
-
+            {/* Django + React combo */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
+              transition={{ delay: 0.8 }}
+              className="text-xl md:text-2xl text-cyan-300/90 flex items-center justify-center lg:justify-start gap-3"
             >
-              <a href="#projects" className="btn-primary group">
-                View Projects
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              <span className="font-bold">Django</span>
+              <span className="text-white/40">+</span>
+              <span className="font-bold">React</span>
+              <span className="text-cyan-400/90 font-medium">Combo</span>
+            </motion.div>
+
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.0 }}
+              className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+            >
+              Building scalable backends with Django & crafting modern, responsive frontends with React.  
+              Turning complex ideas into clean, production-ready web applications.
+            </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.2 }}
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 pt-4"
+            >
+              <a
+                href="#projects"
+                className="group relative inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-xl text-white font-medium shadow-lg shadow-cyan-900/30 hover:shadow-cyan-600/40 hover:scale-[1.03] transition-all duration-300"
+              >
+                Explore My Projects
+                <ArrowRight className="group-hover:translate-x-1 transition-transform" />
               </a>
+
               <a
                 href="https://drive.google.com/file/d/1z9DW6YewWH3OG3iOXov34RHG3V8rCQ-j/view"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-secondary group"
+                className="inline-flex items-center gap-2 px-8 py-4 border border-cyan-500/50 text-cyan-300 hover:text-cyan-200 hover:border-cyan-400 rounded-xl font-medium transition-all duration-300 hover:bg-cyan-950/30"
               >
                 <Download size={18} />
                 Download Resume
