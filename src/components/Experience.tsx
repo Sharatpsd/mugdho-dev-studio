@@ -18,178 +18,185 @@ const experiences = [
     ],
     certificateLink: 'https://drive.google.com/file/d/1a1vq8o_-_wrCj8YMlzKkf448TD9u0Hf_/view?usp=sharing',
   },
-  // Add more experiences here later...
+  // You can easily add more entries later
 ];
 
 export const Experience = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start']
   });
 
-  const lineProgress = useTransform(scrollYProgress, [0, 0.65, 1], [0, 1, 1]);
+  const lineProgress = useTransform(scrollYProgress, [0, 0.7, 1], [0, 1, 1]);
 
   const isInView = useInView(sectionRef, {
     once: true,
-    margin: '-120px',
-    amount: 0.25
+    margin: "-80px",
+    amount: 0.18 // more mobile-friendly trigger
   });
 
   return (
     <section
       id="experience"
       ref={sectionRef}
-      className="relative py-24 md:py-32 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 overflow-hidden"
+      className="relative py-16 sm:py-20 md:py-28 lg:py-36 bg-gradient-to-b from-slate-950 via-slate-920 to-slate-950 overflow-hidden"
     >
       {/* Subtle background decoration */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(59,130,246,0.06),transparent_40%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_25%,rgba(59,130,246,0.05),transparent_50%)]" />
 
       <div className="container mx-auto px-5 sm:px-6 lg:px-8 max-w-5xl relative z-10">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 32 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16 md:mb-20"
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-14 sm:mb-16 md:mb-20 lg:mb-24"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-            <span className="bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent">
-              Professional Experience
-            </span>
+          <h2 className="
+            text-3xl sm:text-4xl md:text-5xl lg:text-6xl 
+            font-extrabold tracking-tight
+            bg-gradient-to-r from-white via-blue-200 to-cyan-200 
+            bg-clip-text text-transparent
+          ">
+            Professional Experience
           </h2>
-          <div className="mt-6 h-1.5 w-28 bg-gradient-to-r from-blue-500 via-cyan-400 to-teal-500 mx-auto rounded-full" />
+          <div className="
+            mt-5 sm:mt-6 h-1.5 w-24 sm:w-28 md:w-32 
+            bg-gradient-to-r from-blue-500 via-cyan-400 to-teal-500 
+            mx-auto rounded-full
+          "/>
         </motion.div>
 
-        {/* Timeline container */}
+        {/* Timeline */}
         <div className="relative max-w-4xl mx-auto">
-          {/* Vertical timeline line */}
-          <div className="absolute left-8 md:left-1/2 top-8 bottom-8 w-0.5 bg-slate-800/70 rounded-full overflow-hidden">
+          {/* Vertical line */}
+          <div className="
+            absolute left-6 sm:left-8 md:left-1/2 
+            top-8 bottom-0 w-0.5 bg-slate-800/60 rounded-full overflow-hidden
+          ">
             <motion.div
               className="absolute inset-0 bg-gradient-to-b from-blue-500 via-cyan-400 to-teal-500 origin-top"
               style={{ scaleY: lineProgress }}
             />
           </div>
 
-          {experiences.map((exp, index) => {
-            const isEven = index % 2 === 0;
-
-            return (
-              <motion.div
-                key={exp.title}
-                initial={{ opacity: 0, y: 60 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{
-                  duration: 0.7,
-                  delay: index * 0.25 + 0.3,
-                  type: 'spring',
-                  stiffness: 90,
-                  damping: 18
-                }}
-                className={`
-                  relative mb-16 last:mb-0
-                  ${isEven ? 'md:pr-1/2 md:ml-auto' : 'md:pl-1/2'}
-                `}
-              >
-                {/* Timeline dot */}
+          {experiences.map((exp, index) => (
+            <motion.div
+              key={exp.title}
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{
+                duration: 0.7,
+                delay: index * 0.22 + 0.25,
+                type: 'spring',
+                stiffness: 100,
+                damping: 18
+              }}
+              className={`
+                relative mb-12 sm:mb-16 last:mb-0
+                pl-14 sm:pl-16 md:pl-0
+                ${index % 2 === 0 ? 'md:pr-[52%] md:ml-auto' : 'md:pl-[52%]'}
+              `}
+            >
+              {/* Timeline dot */}
+              <div className="
+                absolute left-0 sm:left-6 md:left-1/2 top-2
+                -translate-x-1/2 md:-translate-x-1/2
+                w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center z-10
+              ">
                 <div className="
-                  absolute left-0 md:left-1/2 top-4 w-16 h-16 
-                  -translate-x-1/2 md:-translate-x-1/2
-                  flex items-center justify-center z-10
+                  w-10 h-10 sm:w-12 sm:h-12 rounded-full 
+                  bg-gradient-to-br from-blue-600 to-cyan-500 
+                  flex items-center justify-center shadow-xl
+                  ring-8 ring-slate-950/90
                 ">
-                  <div className="
-                    w-14 h-14 rounded-full 
-                    bg-gradient-to-br from-blue-600 to-cyan-500 
-                    flex items-center justify-center shadow-lg
-                    ring-8 ring-slate-950
-                  ">
-                    <Briefcase className="w-7 h-7 text-white" />
+                  <Briefcase className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                </div>
+              </div>
+
+              {/* Content Card */}
+              <div className="
+                relative rounded-2xl sm:rounded-2.5xl p-6 sm:p-7 md:p-8 lg:p-9
+                bg-gradient-to-b from-slate-800/65 to-slate-900/70
+                backdrop-blur-xl border border-slate-700/50
+                shadow-xl shadow-black/25
+                hover:border-slate-500/60 hover:shadow-2xl hover:shadow-blue-950/20
+                transition-all duration-400
+              ">
+                {/* Meta row */}
+                <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 mb-4 text-sm">
+                  <div className="flex items-center gap-1.5 text-cyan-400/90">
+                    <Calendar className="w-4 h-4" />
+                    <span>{exp.period}</span>
                   </div>
+                  <span className="text-slate-600 hidden sm:inline">•</span>
+                  <span className="text-slate-400">{exp.location}</span>
                 </div>
 
-                {/* Card */}
-                <div className={`
-                  relative rounded-2xl p-7 md:p-9
-                  bg-gradient-to-b from-slate-800/70 to-slate-900/70 
-                  backdrop-blur-xl border border-slate-700/60
-                  shadow-2xl shadow-black/30
-                  hover:border-slate-500/70 transition-all duration-400
-                  ${isEven ? 'md:mr-12' : 'md:ml-12'}
-                `}>
-                  {/* Period tag */}
-                  <div className="flex items-center gap-2 mb-5 text-sm font-medium">
-                    <Calendar className="w-4 h-4 text-cyan-400" />
-                    <span className="text-cyan-300/90">{exp.period}</span>
-                  </div>
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 tracking-tight">
+                  {exp.title}
+                </h3>
 
-                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 tracking-tight">
-                    {exp.title}
-                  </h3>
+                <a
+                  href={exp.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 font-medium transition-colors mb-5 sm:mb-6"
+                >
+                  {exp.company}
+                  <ExternalLink size={14} />
+                </a>
 
-                  <div className="flex flex-wrap items-center gap-3 mb-6">
+                {/* Highlights */}
+                <ul className="space-y-3 sm:space-y-3.5 mb-7 sm:mb-8">
+                  {exp.highlights.map((highlight, i) => (
+                    <motion.li
+                      key={i}
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : {}}
+                      transition={{ duration: 0.5, delay: 0.5 + i * 0.08 }}
+                      className="flex items-start gap-3 text-slate-300/90 text-sm sm:text-base"
+                    >
+                      <CheckCircle2 className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+                      <span>{highlight}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+
+                {/* Certificate */}
+                {exp.certificateLink && (
+                  <div className="pt-5 sm:pt-6 border-t border-slate-700/50">
+                    <div className="flex items-center gap-2.5 mb-4">
+                      <Award className="w-5 h-5 text-cyan-400" />
+                      <h4 className="text-sm sm:text-base font-medium text-white">
+                        Internship Completion Certificate
+                      </h4>
+                    </div>
+
                     <a
-                      href={exp.website}
+                      href={exp.certificateLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 font-medium transition-colors"
+                      className="
+                        inline-flex items-center gap-2
+                        px-5 sm:px-6 py-2.5 sm:py-3
+                        bg-gradient-to-r from-cyan-600 to-cyan-500
+                        hover:from-cyan-500 hover:to-cyan-400
+                        text-white font-medium text-sm sm:text-base
+                        rounded-lg shadow-lg hover:shadow-cyan-500/30
+                        transition-all duration-300 active:scale-98
+                      "
                     >
-                      {exp.company}
-                      <ExternalLink size={14} />
+                      View Certificate
+                      <ExternalLink size={15} />
                     </a>
-                    <span className="text-slate-500">•</span>
-                    <span className="text-slate-400">{exp.location}</span>
                   </div>
-
-                  {/* Highlights */}
-                  <ul className="space-y-3.5 mb-8">
-                    {exp.highlights.map((highlight, i) => (
-                      <motion.li
-                        key={i}
-                        initial={{ opacity: 0, x: -15 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.5, delay: 0.6 + i * 0.1 }}
-                        className="flex items-start gap-3 text-slate-300/90"
-                      >
-                        <CheckCircle2 className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-1" />
-                        <span>{highlight}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
-
-                  {/* Certificate Link - only view button */}
-                  {exp.certificateLink && (
-                    <div className="pt-6 border-t border-slate-700/50">
-                      <div className="flex items-center gap-3 mb-4">
-                        <Award className="w-5 h-5 text-cyan-400" />
-                        <h4 className="text-base font-medium text-white">
-                          Certificate of Internship Completion
-                        </h4>
-                      </div>
-
-                      <a
-                        href={exp.certificateLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="
-                          inline-flex items-center gap-2 
-                          px-6 py-3 
-                          bg-gradient-to-r from-cyan-600 to-cyan-500 
-                          hover:from-cyan-500 hover:to-cyan-400 
-                          text-white font-medium 
-                          rounded-lg shadow-lg hover:shadow-cyan-500/30 
-                          transition-all duration-300
-                          transform hover:-translate-y-0.5 active:translate-y-0
-                        "
-                      >
-                        View Certificate
-                        <ExternalLink size={16} />
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            );
-          })}
+                )}
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
