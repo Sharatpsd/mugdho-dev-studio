@@ -138,17 +138,23 @@ export const About = () => {
             {/* Text */}
             <div className="space-y-5 sm:space-y-6 px-1 sm:px-0">
               <p className="text-base sm:text-lg leading-relaxed tracking-tight">
-                I am a backend-focused full-stack developer working primarily with Django and Django REST Framework.
+                Hello! I'm Sharat Acharja Mugdho, a Computer Science graduate from Green University of Bangladesh and a backend-focused full-stack developer.
               </p>
 
               <p className="text-sm sm:text-base leading-relaxed text-muted-foreground/90">
-                My work centers around building systems that are cleanly architected, secure by design,
-                and easy to evolve over time, with real production requirements in mind.
+                I work mainly with Django and Django REST Framework to build reliable, well-structured backend systems. I focus on clean code, proper database design, and secure authentication flows that are built for real-world use.
               </p>
 
               <p className="text-sm sm:text-base leading-relaxed text-muted-foreground/90">
-                From database modeling and authentication flows to API performance and frontend integration,
-                I approach development with a long-term, production-oriented mindset.
+                I care about how a system behaves in production — not just how it runs locally. From API development and JWT-based authentication to deployment and debugging real issues, I aim to build applications that are stable, maintainable, and ready to scale.
+              </p>
+
+              <p className="text-sm sm:text-base leading-relaxed text-muted-foreground/90">
+                I also integrate React frontends with backend systems through clear API communication and consistent data flow, ensuring smooth interaction between both sides.
+              </p>
+
+              <p className="text-sm sm:text-base leading-relaxed text-muted-foreground/90">
+                My goal is simple: to build backend systems that are clean, secure, and designed to last.
               </p>
             </div>
           </motion.div>
