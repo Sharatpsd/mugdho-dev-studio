@@ -7,7 +7,7 @@ const fadeInUp = {
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] }
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }
   }
 };
 
@@ -26,13 +26,13 @@ const highlightVariants = {
     opacity: 1, 
     scale: 1, 
     y: 0,
-    transition: { duration: 0.5, ease: "easeOut" }
+    transition: { duration: 0.5, ease: "easeOut" as const }
   },
   hover: { 
     scale: 1.04, 
     y: -4,
     boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
-    transition: { duration: 0.3 }
+    transition: { duration: 0.3 } as const
   }
 };
 

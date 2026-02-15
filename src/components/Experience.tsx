@@ -73,7 +73,7 @@ export const Experience = () => {
         <div className="relative max-w-4xl mx-auto">
           {/* Vertical line */}
           <div className="
-            absolute left-6 sm:left-8 md:left-1/2 
+            absolute left-6 sm:left-8 md:left-[30px] 
             top-8 bottom-0 w-0.5 bg-slate-800/60 rounded-full overflow-hidden
           ">
             <motion.div
@@ -94,16 +94,16 @@ export const Experience = () => {
                 stiffness: 100,
                 damping: 18
               }}
-              className={`
+              className="
                 relative mb-12 sm:mb-16 last:mb-0
                 pl-14 sm:pl-16 md:pl-0
-                ${index % 2 === 0 ? 'md:pr-[52%] md:ml-auto' : 'md:pl-[52%]'}
-              `}
+                md:mx-auto md:max-w-2xl md:pl-[60px]
+              "
             >
               {/* Timeline dot */}
-              <div className="
-                absolute left-0 sm:left-6 md:left-1/2 top-2
-                -translate-x-1/2 md:-translate-x-1/2
+            <div className="
+                absolute left-0 sm:left-6 md:left-0 top-2
+                -translate-x-1/2 md:translate-x-0
                 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center z-10
               ">
                 <div className="

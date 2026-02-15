@@ -5,6 +5,7 @@ import { Github, ExternalLink, Star, X, ArrowRight } from 'lucide-react';
 import projectBite from '@/assets/project-bite.png';
 import projectDairy from '@/assets/project-dairy.png';
 import projectCareer from '@/assets/project-career.png';
+import projectChai from '@/assets/project-chai.png';
 
 const projects = [
   {
@@ -51,6 +52,21 @@ const projects = [
     ],
     github: 'https://github.com/Sharatpsd/smart-career-prediction-using-ml',
     live: 'https://ai-career-guidance.onrender.com/',
+  },
+  {
+    title: 'Chai Order System',
+    featured: false,
+    description: 'A Django-based full-stack tea ordering system with structured backend architecture and real-world deployment on Render. Includes authentication, order management flow, clean database design, and complete README documentation.',
+    image: projectChai,
+    tech: ['Django', 'Python', 'PostgreSQL', 'Render'],
+    highlights: [
+      'Full authentication & order management',
+      'Clean database design & architecture',
+      'Production deployment on Render',
+      'Complete documentation',
+    ],
+    github: 'https://github.com/Sharatpsd/chai-order-system',
+    live: 'https://chai-order-system-5.onrender.com/',
   },
 ];
 
