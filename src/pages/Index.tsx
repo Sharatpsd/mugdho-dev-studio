@@ -15,8 +15,9 @@ const Index = () => {
       <Hero />
       <About />
       <Skills />
-      <Experience />
+      
       <Projects />
+      <Experience />
       <Research />
       <Contact />
       <Footer />

@@ -1,254 +1,235 @@
-import { motion, useInView, useAnimation, Variants } from 'framer-motion';
-import { useRef, useEffect, useState } from 'react';
-import { Server, Smartphone, Database, CloudCog, Code2 } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import { useRef, useState } from 'react';
+import { 
+  Server, 
+  Globe, 
+  Database, 
+  Layers, 
+  Ship, 
+  GitBranch, 
+  Sparkles 
+} from 'lucide-react';
 
-const skillCategories = [
+const skillsData = [
   {
-    title: 'Backend',
+    id: 1,
+    name: "Django",
     icon: Server,
-    color: 'from-cyan-400 via-blue-500 to-indigo-500',
-    glow: 'rgba(34,211,238,0.35)',
-    skills: [
-      { name: 'Python', level: 95 },
-      { name: 'Django', level: 92 },
-      { name: 'Django REST Framework', level: 90 },
-      { name: 'REST API Design', level: 88 },
-      { name: 'JWT Authentication', level: 85 },
+    category: "Backend Framework",
+    color: "from-emerald-400 to-teal-400",
+    dotColor: "bg-emerald-400",
+    description: "High-level Python web framework that encourages rapid development and clean, pragmatic design.",
+    strengths: [
+      "Built-in admin interface",
+      "Powerful ORM",
+      "Excellent security features",
+      "Scalable architecture"
     ],
+    level: "Expert"
   },
   {
-    title: 'Frontend',
-    icon: Smartphone,
-    color: 'from-sky-400 via-indigo-500 to-violet-500',
-    glow: 'rgba(99,102,241,0.35)',
-    skills: [
-      { name: 'React', level: 87 },
-      { name: 'Next.js', level: 85 },
-      { name: 'Tailwind CSS', level: 92 },
-      { name: 'TypeScript', level: 84 },
-      { name: 'HTML/CSS', level: 93 },
+    id: 2,
+    name: "REST API",
+    icon: Globe,
+    category: "API Development",
+    color: "from-cyan-400 to-blue-400",
+    dotColor: "bg-cyan-400",
+    description: "Designing and implementing robust, scalable, and well-documented RESTful APIs using DRF.",
+    strengths: [
+      "DRF Serializers & ViewSets",
+      "Authentication & Permissions",
+      "Rate limiting & throttling",
+      "Comprehensive documentation"
     ],
+    level: "Advanced"
   },
   {
-    title: 'Databases',
+    id: 3,
+    name: "PostgreSQL",
     icon: Database,
-    color: 'from-cyan-400 to-sky-500',
-    glow: 'rgba(34,211,238,0.32)',
-    skills: [
-      { name: 'PostgreSQL', level: 91 },
-      { name: 'MySQL', level: 86 },
-      { name: 'Redis', level: 82 },
-      { name: 'MongoDB', level: 78 },
+    category: "Database",
+    color: "from-indigo-400 to-violet-400",
+    dotColor: "bg-indigo-400",
+    description: "Advanced relational database management with focus on performance and data integrity.",
+    strengths: [
+      "Complex query optimization",
+      "JSONField & ArrayField",
+      "Advanced indexing",
+      "Transaction management"
     ],
+    level: "Expert"
   },
   {
-    title: 'DevOps & Tools',
-    icon: CloudCog,
-    color: 'from-blue-500 to-cyan-500',
-    glow: 'rgba(14,165,233,0.32)',
-    skills: [
-      { name: 'Docker', level: 84 },
-      { name: 'Git/GitHub', level: 96 },
-      { name: 'CI/CD Pipelines', level: 82 },
-      { name: 'Linux', level: 85 },
-      { name: 'Postman', level: 91 },
+    id: 4,
+    name: "React",
+    icon: Layers,
+    category: "Frontend",
+    color: "from-sky-400 to-blue-500",
+    dotColor: "bg-sky-400",
+    description: "Building modern, responsive, and interactive user interfaces with React ecosystem.",
+    strengths: [
+      "Component architecture",
+      "State management",
+      "Performance optimization",
+      "Seamless API integration"
     ],
+    level: "Advanced"
   },
-];
-
-const deviconMap: Record<string, string> = {
-  Python: 'python/python-original.svg',
-  Django: 'django/django-plain.svg',
-  'Django REST Framework': 'django/django-plain.svg',
-  'REST API Design': 'fastapi/fastapi-original.svg',
-  'JWT Authentication': 'jsonwebtokens/jsonwebtokens-original.svg',
-  React: 'react/react-original.svg',
-  'Next.js': 'nextjs/nextjs-original.svg',
-  'Tailwind CSS': 'tailwindcss/tailwindcss-original.svg',
-  TypeScript: 'typescript/typescript-original.svg',
-  'HTML/CSS': 'html5/html5-original.svg',
-  PostgreSQL: 'postgresql/postgresql-original.svg',
-  MySQL: 'mysql/mysql-original.svg',
-  Redis: 'redis/redis-original.svg',
-  MongoDB: 'mongodb/mongodb-original.svg',
-  Docker: 'docker/docker-original.svg',
-  'Git/GitHub': 'git/git-original.svg',
-  'CI/CD Pipelines': 'githubactions/githubactions-original.svg',
-  Linux: 'linux/linux-original.svg',
-  Postman: 'postman/postman-original.svg',
-};
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 60, scale: 0.95 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 90,
-      damping: 20,
-      delay: i * 0.08,
-    },
-  }),
-};
-
-const SkillIcon = ({ name }: { name: string }) => {
-  const [failed, setFailed] = useState(false);
-  const src = deviconMap[name]
-    ? `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${deviconMap[name]}`
-    : null;
-
-  if (!src || failed) {
-    return (
-      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-800">
-        <Code2 className="h-5 w-5 text-slate-400" />
-      </div>
-    );
+  {
+    id: 5,
+    name: "Docker",
+    icon: Ship,
+    category: "DevOps",
+    color: "from-blue-400 to-cyan-400",
+    dotColor: "bg-blue-400",
+    description: "Containerization and deployment of applications for consistent development and production environments.",
+    strengths: [
+      "Multi-container applications",
+      "Docker Compose orchestration",
+      "Optimized Dockerfiles",
+      "CI/CD integration"
+    ],
+    level: "Advanced"
+  },
+  {
+    id: 6,
+    name: "Git & GitHub",
+    icon: GitBranch,
+    category: "Version Control",
+    color: "from-orange-400 to-amber-400",
+    dotColor: "bg-orange-400",
+    description: "Professional version control workflows, collaboration, and deployment pipelines.",
+    strengths: [
+      "Branching strategies",
+      "Code review processes",
+      "GitHub Actions",
+      "Repository management"
+    ],
+    level: "Expert"
   }
-
-  return (
-    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-800/80 p-1.5 backdrop-blur-sm">
-      <img
-        src={src}
-        alt={name}
-        className="h-7 w-7 object-contain transition-transform duration-300 group-hover:scale-110"
-        onError={() => setFailed(true)}
-        loading="lazy"
-      />
-    </div>
-  );
-};
+];
 
 export const Skills = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px', amount: 0.25 });
-  const controls = useAnimation();
-
-  useEffect(() => {
-    if (isInView) controls.start('visible');
-  }, [isInView, controls]);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [activeSkill, setActiveSkill] = useState(skillsData[0]);
 
   return (
-    <section id="skills" className="relative overflow-hidden bg-slate-950 py-20 md:py-32 lg:py-40">
+    <section id="skills" className="relative overflow-hidden bg-[#0a0f1c] py-24 md:py-32 lg:py-40">
       {/* Background Glows */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(34,211,238,0.09),transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_70%,rgba(99,102,241,0.08),transparent_55%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(6,182,212,0.12),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(129,140,248,0.08),transparent_65%)]" />
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8" ref={ref}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-16 text-center md:mb-20"
+          className="mb-16 text-center"
         >
-          <div className="mx-auto mb-4 inline-flex items-center rounded-full border border-cyan-500/20 bg-cyan-950/60 px-6 py-2 text-sm font-medium tracking-widest text-cyan-400">
-            EXPERTISE
+          <div className="mx-auto mb-5 inline-flex items-center gap-3 rounded-full border border-cyan-400/20 bg-cyan-950/60 px-8 py-2 text-sm tracking-[3px] text-cyan-300">
+            <Sparkles className="h-4 w-4" /> SKILL JOURNEY
+          </div>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter bg-gradient-to-r from-white via-cyan-100 to-blue-100 bg-clip-text text-transparent">
+            My Skills Timeline
+          </h2>
+          <p className="mx-auto mt-6 max-w-xl text-lg text-slate-400">
+            Hover over each milestone to explore my technical expertise in detail
+          </p>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
+          
+          {/* LEFT: Interactive Timeline */}
+          <div className="lg:col-span-2">
+            <div className="relative pl-8">
+              {/* Glowing Timeline Line */}
+              <div className="absolute left-4 top-6 bottom-6 w-px bg-gradient-to-b from-cyan-400/30 via-blue-400/30 to-transparent" />
+
+              {skillsData.map((skill, index) => {
+                const Icon = skill.icon;
+                const isActive = activeSkill.id === skill.id;
+
+                return (
+                  <motion.div
+                    key={skill.id}
+                    initial={{ opacity: 0, x: -40 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ delay: index * 0.12 }}
+                    onMouseEnter={() => setActiveSkill(skill)}
+                    className={`group relative mb-12 last:mb-0 cursor-pointer transition-all duration-300 ${isActive ? 'scale-[1.02]' : ''}`}
+                  >
+                    {/* Timeline Dot */}
+                    <div className={`absolute -left-[9px] top-4 h-5 w-5 rounded-full border-4 border-[#0a0f1c] transition-all duration-300 ${skill.dotColor} ${isActive ? 'scale-125 ring-4 ring-cyan-400/40' : 'group-hover:scale-110'}`} />
+
+                    <div className={`rounded-3xl border p-6 backdrop-blur-xl transition-all duration-300 ${isActive 
+                      ? 'border-cyan-400/50 bg-slate-900/90 shadow-2xl shadow-cyan-500/20' 
+                      : 'border-slate-700/60 bg-slate-900/60 hover:border-slate-600 group-hover:bg-slate-900/80'}`}>
+                      
+                      <div className="flex items-start gap-5">
+                        <div className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${skill.color} flex-shrink-0 shadow-lg`}>
+                          <Icon className="h-7 w-7 text-white" />
+                        </div>
+                        
+                        <div className="flex-1 pt-1">
+                          <div className="flex items-center justify-between">
+                            <h3 className="text-2xl font-semibold text-white tracking-tight">{skill.name}</h3>
+                            <span className="text-xs font-mono uppercase tracking-widest text-cyan-300">{skill.level}</span>
+                          </div>
+                          <p className="mt-1 text-sm text-slate-400">{skill.category}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
 
-          <h2 className="bg-gradient-to-r from-white via-cyan-100 to-blue-100 bg-clip-text text-5xl font-bold tracking-tighter text-transparent md:text-6xl lg:text-7xl">
-            Technical Skills
-          </h2>
-
-          <p className="mx-auto mt-6 max-w-xl text-lg text-slate-400">
-            Technologies and tools I master to build scalable, high-performance applications
-          </p>
-
-          <div className="mx-auto mt-8 h-1 w-28 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500" />
-        </motion.div>
-
-        {/* Skills Grid */}
-        <motion.div
-          initial="hidden"
-          animate={controls}
-          variants={{
-            hidden: { opacity: 0 },
-            visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
-          }}
-          className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {skillCategories.map((category, idx) => (
+          {/* RIGHT: Dynamic Detail Panel */}
+          <div className="lg:col-span-3">
             <motion.div
-              key={category.title}
-              custom={idx}
-              variants={cardVariants}
-              whileHover={{
-                y: -12,
-                transition: { duration: 0.4, ease: 'easeOut' },
-              }}
-              className="group relative overflow-hidden rounded-3xl border border-slate-700/60 bg-slate-900/70 p-8 backdrop-blur-2xl transition-all duration-500 hover:border-cyan-400/40 hover:shadow-2xl hover:shadow-cyan-500/10"
+              key={activeSkill.id}
+              initial={{ opacity: 0, y: 30, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+              className="sticky top-8 rounded-3xl border border-slate-700/60 bg-slate-900/70 p-10 md:p-14 backdrop-blur-2xl shadow-2xl"
             >
-              {/* Subtle Background Gradient */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 transition-opacity duration-700 group-hover:opacity-5`} />
-
-              {/* Category Header */}
-              <div className="relative z-10 mb-8 flex items-start justify-between">
-                <div className="flex items-center gap-5">
-                  <div className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${category.color} shadow-lg shadow-cyan-500/30`}>
-                    <category.icon className="h-7 w-7 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-semibold tracking-tight text-white">
-                      {category.title}
-                    </h3>
-                    <p className="mt-1 text-xs uppercase tracking-[2px] text-slate-500">Proficiency</p>
-                  </div>
+              <div className="flex items-center gap-6 mb-10">
+                <div className={`flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br ${activeSkill.color} shadow-xl`}>
+                  <activeSkill.icon className="h-10 w-10 text-white" />
                 </div>
-
-                <div className="rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs font-medium text-slate-300">
-                  {category.skills.length}
+                <div>
+                  <div className="text-sm uppercase tracking-[2px] text-cyan-400 font-medium">{activeSkill.category}</div>
+                  <h3 className="text-4xl font-bold tracking-tight text-white mt-1">{activeSkill.name}</h3>
                 </div>
               </div>
 
-              {/* Skills List */}
-              <div className="relative z-10 space-y-6">
-                {category.skills.map((skill, skillIndex) => (
-                  <div key={skill.name} className="group/skill">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-4">
-                        <SkillIcon name={skill.name} />
-                        <span className="font-medium text-white transition-colors group-hover/skill:text-cyan-200">
-                          {skill.name}
-                        </span>
-                      </div>
-                      <span className="text-sm font-semibold text-cyan-300 tabular-nums">
-                        {skill.level}%
-                      </span>
-                    </div>
+              <p className="text-lg leading-relaxed text-slate-300 mb-10">
+                {activeSkill.description}
+              </p>
 
-                    {/* Progress Bar */}
-                    <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-slate-800">
-                      <motion.div
-                        className={`h-full bg-gradient-to-r ${category.color} relative`}
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.4, delay: 0.3 + idx * 0.05 + skillIndex * 0.06 }}
-                      >
-                        {/* Shimmer Effect */}
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                          initial={{ x: '-100%' }}
-                          animate={isInView ? { x: '280%' } : {}}
-                          transition={{
-                            duration: 1.8,
-                            delay: 1.2 + skillIndex * 0.1,
-                            repeat: Infinity,
-                            repeatDelay: 3,
-                          }}
-                        />
-                      </motion.div>
-                    </div>
-                  </div>
-                ))}
+              <div>
+                <h4 className="uppercase text-xs tracking-widest text-slate-400 mb-5 font-medium">KEY STRENGTHS</h4>
+                <ul className="space-y-4">
+                  {activeSkill.strengths.map((strength, idx) => (
+                    <li key={idx} className="flex items-start gap-4">
+                      <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-cyan-400 flex-shrink-0" />
+                      <span className="text-slate-300">{strength}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
-              {/* Bottom Glow Line */}
-              <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              {/* Level Indicator */}
+              <div className="mt-12 pt-8 border-t border-slate-700/50 flex items-center gap-4">
+                <div className="text-xs text-slate-500">PROFICIENCY</div>
+                <div className="flex-1 h-px bg-gradient-to-r from-cyan-400/30 to-transparent" />
+                <div className="font-mono text-xl font-semibold text-cyan-300 tracking-wider">{activeSkill.level}</div>
+              </div>
             </motion.div>
-          ))}
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );
